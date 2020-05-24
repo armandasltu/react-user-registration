@@ -9,9 +9,7 @@ import {
   Paper,
 } from "@material-ui/core";
 
-const UsersList = () => {
-  const users = JSON.parse(localStorage.getItem("users")) ?? [];
-
+const UsersList = ({ users }) => {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="Users list">

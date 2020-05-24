@@ -22,10 +22,8 @@ const UserForm = ({ onSubmit }) => {
   });
 
   const onFormSubmit = (values, { setSubmitting }) => {
-    const users = JSON.parse(localStorage.getItem("users")) ?? [];
-    localStorage.setItem("users", JSON.stringify([values, ...users]));
     setSubmitting(false);
-    onSubmit();
+    onSubmit(values);
   };
 
   return (

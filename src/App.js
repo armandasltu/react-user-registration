@@ -22,6 +22,7 @@ function Copyright() {
 
 export default function App() {
   const [isDialogOpen, setDialogOpen] = React.useState(false);
+  const users = JSON.parse(localStorage.getItem("users")) ?? [];
 
   return (
     <Container maxWidth="sm">
@@ -42,11 +43,19 @@ export default function App() {
           <Dialog open={isDialogOpen} onClose={() => setDialogOpen(false)}>
             <DialogTitle>Add user</DialogTitle>
             <DialogContent>
-              <UserForm onSubmit={() => setDialogOpen(false)} />
+              <UserForm
+                onSubmit={(values) => {
+                  localStorage.setItem(
+                    "users",
+                    JSON.stringify([values, ...users])
+                  );
+                  setDialogOpen(false);
+                }}
+              />
             </DialogContent>
           </Dialog>
         </Box>
-        <UsersList />
+        <UsersList users={users} />
         <Copyright />
       </Box>
     </Container>
