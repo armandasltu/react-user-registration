@@ -12,6 +12,8 @@
     "@material-ui/core": "latest",
     "@material-ui/icons": "^4.9.1",
     "clsx": "latest",
+    "eslint": "^7.1.0",
+    "prettier": "^2.0.5",
     "react": "latest",
     "react-dom": "latest",
     "react-scripts": "latest"
