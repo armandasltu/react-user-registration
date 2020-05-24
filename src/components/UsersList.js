@@ -9,15 +9,9 @@ import {
   Paper,
 } from "@material-ui/core";
 
-const rows = [
-  {
-    name: "Harry",
-    surname: "Gloop",
-    email: "harry.gloop@gmail.com",
-  },
-];
-
 const UsersList = () => {
+  const users = JSON.parse(localStorage.getItem("users")) ?? [];
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label="Users list">
@@ -28,15 +22,19 @@ const UsersList = () => {
             <TableCell>Email</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name}>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.surname}</TableCell>
-              <TableCell>{row.email}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+        {users.length ? (
+          <TableBody>
+            {users.map(({ firstName, lastName, email }, index) => (
+              <TableRow key={index}>
+                <TableCell>{firstName}</TableCell>
+                <TableCell>{lastName}</TableCell>
+                <TableCell>{email}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        ) : (
+          <caption>No data</caption>
+        )}
       </Table>
     </TableContainer>
   );

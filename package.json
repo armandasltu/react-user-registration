@@ -13,10 +13,13 @@
     "@material-ui/icons": "^4.9.1",
     "clsx": "latest",
     "eslint": "^7.1.0",
+    "formik": "^2.1.4",
+    "formik-material-ui": "^2.0.0-beta.1",
     "prettier": "^2.0.5",
     "react": "latest",
     "react-dom": "latest",
-    "react-scripts": "latest"
+    "react-scripts": "latest",
+    "yup": "^0.29.0"
   },
   "browserslist": {
     "production": [
