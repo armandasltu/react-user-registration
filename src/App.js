@@ -7,13 +7,10 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  LinearProgress,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import UsersList from "./components/UsersList";
-import { Formik, Field, Form } from "formik";
-import { TextField } from "formik-material-ui";
-import * as Yup from "yup";
+import UserForm from "./components/UserForm";
 
 function Copyright() {
   return (
@@ -45,66 +42,7 @@ export default function App() {
           <Dialog open={isDialogOpen} onClose={() => setDialogOpen(false)}>
             <DialogTitle>Add user</DialogTitle>
             <DialogContent>
-              <Formik
-                initialValues={{
-                  firstName: "",
-                  lastName: "",
-                  email: "",
-                }}
-                validationSchema={Yup.object({
-                  firstName: Yup.string()
-                    .max(15, "Must be 15 characters or less")
-                    .required("Required"),
-                  lastName: Yup.string()
-                    .max(20, "Must be 20 characters or less")
-                    .required("Required"),
-                  email: Yup.string()
-                    .email("Invalid email address")
-                    .required("Required"),
-                })}
-                onSubmit={(values, { setSubmitting }) => {
-                  const users = JSON.parse(localStorage.getItem("users")) ?? [];
-                  localStorage.setItem(
-                    "users",
-                    JSON.stringify([values, ...users])
-                  );
-                  setSubmitting(false);
-                  setDialogOpen(false)
-                }}
-              >
-                {({ submitForm, isSubmitting }) => (
-                  <Form>
-                    <Field
-                      component={TextField}
-                      name="firstName"
-                      label="First name"
-                      fullWidth
-                    />
-                    <Field
-                      component={TextField}
-                      label="Last name"
-                      name="lastName"
-                      fullWidth
-                    />
-                    <Field
-                      component={TextField}
-                      type="email"
-                      label="Email"
-                      name="email"
-                      fullWidth
-                    />
-                    {isSubmitting && <LinearProgress />}
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      disabled={isSubmitting}
-                      onClick={submitForm}
-                    >
-                      Submit
-                    </Button>
-                  </Form>
-                )}
-              </Formik>
+              <UserForm onSubmit={() => setDialogOpen(false)} />
             </DialogContent>
           </Dialog>
         </Box>
