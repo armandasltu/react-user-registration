@@ -5,7 +5,7 @@ import { Box, Button, LinearProgress } from "@material-ui/core";
 import React from "react";
 import AddressField from "./Fields/AddressField";
 
-const UserForm = ({ onSubmit }) => {
+const UserForm = ({ onSubmit, onCancel }) => {
   const initialValues = {
     firstName: "",
     lastName: "",
@@ -70,11 +70,18 @@ const UserForm = ({ onSubmit }) => {
           <Box display="flex" mt={2} mb={2}>
             <Button
               variant="contained"
+              disabled={isSubmitting}
+              onClick={onCancel}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
               color="primary"
               disabled={isSubmitting}
               onClick={submitForm}
             >
-              Submit
+              Save
             </Button>
           </Box>
         </Form>

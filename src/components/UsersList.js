@@ -25,7 +25,6 @@ const UsersList = ({ users }) => {
           <TableBody>
             {users.map((user, index) => (
               <TableRow key={index}>
-                {console.log(user)}
                 <TableCell>{user.firstName}</TableCell>
                 <TableCell>{user.lastName}</TableCell>
                 <TableCell>{user.email}</TableCell>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Container,
   Typography,
@@ -21,7 +21,7 @@ function Copyright() {
 }
 
 export default function App() {
-  const [isDialogOpen, setDialogOpen] = React.useState(false);
+  const [isDialogOpen, setDialogOpen] = useState(false);
   const users = JSON.parse(localStorage.getItem("users")) ?? [];
 
   return (
@@ -51,6 +51,7 @@ export default function App() {
                   );
                   setDialogOpen(false);
                 }}
+                onCancel={() => setDialogOpen(false)}
               />
             </DialogContent>
           </Dialog>
