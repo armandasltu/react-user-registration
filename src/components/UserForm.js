@@ -1,14 +1,16 @@
 import * as Yup from "yup";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
-import { Button, LinearProgress } from "@material-ui/core";
+import { Box, Button, LinearProgress } from "@material-ui/core";
 import React from "react";
+import AddressField from "./Fields/AddressField";
 
 const UserForm = ({ onSubmit }) => {
   const initialValues = {
     firstName: "",
     lastName: "",
     email: "",
+    address: "",
   };
 
   const validationSchema = Yup.object({
@@ -19,6 +21,9 @@ const UserForm = ({ onSubmit }) => {
       .max(20, "Must be 20 characters or less")
       .required("Required"),
     email: Yup.string().email("Invalid email address").required("Required"),
+    address: Yup.string()
+      .max(255, "Must be 255 characters or less")
+      .required("Required"),
   });
 
   const onFormSubmit = (values, { setSubmitting }) => {
@@ -44,6 +49,7 @@ const UserForm = ({ onSubmit }) => {
             component={TextField}
             label="Last name"
             name="lastName"
+            margin="dense"
             fullWidth
           />
           <Field
@@ -51,17 +57,26 @@ const UserForm = ({ onSubmit }) => {
             type="email"
             label="Email"
             name="email"
+            margin="dense"
             fullWidth
           />
+          <Field
+            component={AddressField}
+            type="address"
+            label="Address"
+            name="address"
+          />
           {isSubmitting && <LinearProgress />}
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={isSubmitting}
-            onClick={submitForm}
-          >
-            Submit
-          </Button>
+          <Box display="flex" mt={2} mb={2}>
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={isSubmitting}
+              onClick={submitForm}
+            >
+              Submit
+            </Button>
+          </Box>
         </Form>
       )}
     </Formik>

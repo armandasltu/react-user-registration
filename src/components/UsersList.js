@@ -18,15 +18,18 @@ const UsersList = ({ users }) => {
             <TableCell>Name</TableCell>
             <TableCell>Surname</TableCell>
             <TableCell>Email</TableCell>
+            <TableCell>Address</TableCell>
           </TableRow>
         </TableHead>
         {users.length ? (
           <TableBody>
-            {users.map(({ firstName, lastName, email }, index) => (
+            {users.map((user, index) => (
               <TableRow key={index}>
-                <TableCell>{firstName}</TableCell>
-                <TableCell>{lastName}</TableCell>
-                <TableCell>{email}</TableCell>
+                {console.log(user)}
+                <TableCell>{user.firstName}</TableCell>
+                <TableCell>{user.lastName}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.address}</TableCell>
               </TableRow>
             ))}
           </TableBody>
