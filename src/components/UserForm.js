@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
@@ -14,20 +14,22 @@ const useStyles = makeStyles((theme: Theme) => ({
     flexWrap: "wrap",
     marginTop: theme.spacing(4),
     marginBottom: theme.spacing(2),
-    '& > button': {
-      marginRight: theme.spacing(1)
-    }
+    "& > button": {
+      marginRight: theme.spacing(1),
+    },
   },
 }));
 
-const UserForm = ({ onSubmit, onCancel }) => {
+const UserForm = ({ user, onSubmit, onCancel }) => {
   const classes = useStyles();
 
+  const { firstName, lastName, email, address } = user;
+
   const initialValues = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    address: "",
+    firstName: firstName ?? "",
+    lastName: lastName ?? "",
+    email: email ?? "",
+    address: address ?? "",
   };
 
   const validationSchema = Yup.object({
@@ -108,12 +110,14 @@ const UserForm = ({ onSubmit, onCancel }) => {
 };
 
 UserForm.defaultProps = {
-  onSubmit: () => {}
+  user: {},
+  onSubmit: () => {},
 };
 
 UserForm.propTypes = {
+  user: PropTypes.object,
   onSubmit: PropTypes.func.isRequired,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
 };
 
 export default UserForm;

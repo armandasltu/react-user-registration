@@ -14,10 +14,18 @@ import UserForm from "./components/UserForm";
 
 export default function App() {
   const [isDialogOpen, setDialogOpen] = useState(false);
+  const [editableUserId, setEditableUserId] = useState(null);
   const users = JSON.parse(localStorage.getItem("users")) ?? [];
 
+  const onDialogClose = () => {
+    setEditableUserId(null);
+    setDialogOpen(false);
+  };
+
+  const editableUser = users[editableUserId];
+
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="md">
       <Box my={4}>
         <Typography variant="h4" component="h1" gutterBottom align="center">
           React user registration
@@ -33,24 +41,41 @@ export default function App() {
             Add user
           </Button>
 
-          <Dialog open={isDialogOpen} onClose={() => setDialogOpen(false)}>
-            <DialogTitle>Add user</DialogTitle>
+          <Dialog open={isDialogOpen} onClose={onDialogClose}>
+            <DialogTitle>
+              {`${editableUserId ? "Edit" : "Add"} user`}
+            </DialogTitle>
             <DialogContent>
               <UserForm
+                user={editableUser}
                 onSubmit={(values) => {
-                  localStorage.setItem(
-                    "users",
-                    JSON.stringify([values, ...users])
-                  );
-                  setDialogOpen(false);
+                  if (editableUser) {
+                    users[editableUserId] = values;
+                    localStorage.setItem(
+                        "users",
+                        JSON.stringify(users)
+                    );
+                  } else {
+                    localStorage.setItem(
+                      "users",
+                      JSON.stringify([values, ...users])
+                    );
+                  }
+                  onDialogClose();
                 }}
-                onCancel={() => setDialogOpen(false)}
+                onCancel={onDialogClose}
               />
             </DialogContent>
           </Dialog>
         </Box>
 
-        <UsersList users={users} />
+        <UsersList
+          users={users}
+          onEdit={(id) => {
+            setEditableUserId(id);
+            setDialogOpen(true);
+          }}
+        />
 
         <Box mt={2}>
           <Typography variant="body2" color="textSecondary" align="center">

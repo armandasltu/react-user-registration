@@ -50,8 +50,8 @@ const AddressField = (props) => {
             fullWidth
           />
           {loading && <CircularProgress />}
-          {suggestions.map((suggestion) => (
-            <div>
+          {suggestions.map((suggestion, index) => (
+            <div key={index}>
               <Link href="#" {...getSuggestionItemProps(suggestion)}>
                 {suggestion.description}
               </Link>
