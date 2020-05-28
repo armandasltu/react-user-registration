@@ -8,6 +8,7 @@ import {
   TableRow,
   Paper,
 } from "@material-ui/core";
+import PropTypes from "prop-types";
 
 const UsersList = ({ users }) => {
   return (
@@ -38,6 +39,14 @@ const UsersList = ({ users }) => {
       </Table>
     </TableContainer>
   );
+};
+
+UsersList.defaultProps = {
+  users: []
+};
+
+UsersList.propTypes = {
+  users: PropTypes.array,
 };
 
 export default UsersList;

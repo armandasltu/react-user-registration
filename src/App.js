@@ -12,14 +12,6 @@ import AddIcon from "@material-ui/icons/Add";
 import UsersList from "./components/UsersList";
 import UserForm from "./components/UserForm";
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © Armandas Motuzas"}
-    </Typography>
-  );
-}
-
 export default function App() {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const users = JSON.parse(localStorage.getItem("users")) ?? [];
@@ -30,10 +22,11 @@ export default function App() {
         <Typography variant="h4" component="h1" gutterBottom align="center">
           React user registration
         </Typography>
+
         <Box mb={2}>
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             startIcon={<AddIcon />}
             onClick={() => setDialogOpen(true)}
           >
@@ -56,8 +49,14 @@ export default function App() {
             </DialogContent>
           </Dialog>
         </Box>
+
         <UsersList users={users} />
-        <Copyright />
+
+        <Box mt={2}>
+          <Typography variant="body2" color="textSecondary" align="center">
+            {"Copyright © Armandas Motuzas"}
+          </Typography>
+        </Box>
       </Box>
     </Container>
   );

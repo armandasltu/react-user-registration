@@ -1,11 +1,28 @@
+import React from "react";
+import PropTypes from 'prop-types';
 import * as Yup from "yup";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
 import { Box, Button, LinearProgress } from "@material-ui/core";
-import React from "react";
 import AddressField from "./Fields/AddressField";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme: Theme) => ({
+  actions: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(2),
+    '& > button': {
+      marginRight: theme.spacing(1)
+    }
+  },
+}));
 
 const UserForm = ({ onSubmit, onCancel }) => {
+  const classes = useStyles();
+
   const initialValues = {
     firstName: "",
     lastName: "",
@@ -67,7 +84,7 @@ const UserForm = ({ onSubmit, onCancel }) => {
             name="address"
           />
           {isSubmitting && <LinearProgress />}
-          <Box display="flex" mt={2} mb={2}>
+          <Box className={classes.actions}>
             <Button
               variant="contained"
               disabled={isSubmitting}
@@ -88,6 +105,15 @@ const UserForm = ({ onSubmit, onCancel }) => {
       )}
     </Formik>
   );
+};
+
+UserForm.defaultProps = {
+  onSubmit: () => {}
+};
+
+UserForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  onClose: PropTypes.func
 };
 
 export default UserForm;
