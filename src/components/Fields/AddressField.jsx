@@ -1,8 +1,5 @@
 import React from "react";
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng,
-} from "react-places-autocomplete";
+import PlacesAutocomplete from "react-places-autocomplete";
 import { CircularProgress, TextField, Link } from "@material-ui/core";
 import { fieldToTextField } from "formik-material-ui";
 
@@ -19,22 +16,13 @@ const AddressField = (props) => {
     setFieldValue(name, address);
   };
 
-  const handleSelect = (address) => {
-    geocodeByAddress(address)
-      .then((results) => getLatLng(results[0]))
-      .then(() => {
-        setFieldValue(name, address);
-      })
-      .catch((error) => setFieldError(name, error));
-  };
-
   return (
     <PlacesAutocomplete
       name={name}
       id={name}
       value={value}
       onChange={handleChange}
-      onSelect={handleSelect}
+      onSelect={handleChange}
       onError={handleError}
     >
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
