@@ -1,11 +1,11 @@
 import React from "react";
-import PropTypes from "prop-types";
 import * as Yup from "yup";
-import { Field, Form, Formik } from "formik";
+import { Field, Form, Formik, FormikHelpers } from "formik";
 import { TextField } from "formik-material-ui";
 import { Box, Button, LinearProgress } from "@material-ui/core";
 import AddressField from "./Fields/AddressField";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
+import { User } from "../types";
 
 const useStyles = makeStyles((theme: Theme) => ({
   actions: {
@@ -20,16 +20,27 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const UserForm = ({ user, onSubmit, onCancel }) => {
+interface UserFormValues {
+  firstName: string;
+  lastName: string;
+  email: string;
+  address: string;
+}
+
+interface UserFormProps {
+  user?: User;
+  onSubmit: (values: UserFormValues) => void;
+  onCancel: () => void;
+}
+
+const UserForm: React.FC<UserFormProps> = ({ user, onSubmit, onCancel }) => {
   const classes = useStyles();
 
-  const { firstName, lastName, email, address } = user;
-
-  const initialValues = {
-    firstName: firstName ?? "",
-    lastName: lastName ?? "",
-    email: email ?? "",
-    address: address ?? "",
+  const initialValues: UserFormValues = {
+    firstName: user?.firstName ?? "",
+    lastName: user?.lastName ?? "",
+    email: user?.email ?? "",
+    address: user?.address ?? "",
   };
 
   const validationSchema = Yup.object({
@@ -45,7 +56,10 @@ const UserForm = ({ user, onSubmit, onCancel }) => {
       .required("Required"),
   });
 
-  const onFormSubmit = (values, { setSubmitting }) => {
+  const onFormSubmit = (
+    values: UserFormValues,
+    { setSubmitting }: FormikHelpers<UserFormValues>
+  ) => {
     setSubmitting(false);
     onSubmit(values);
   };
@@ -107,17 +121,6 @@ const UserForm = ({ user, onSubmit, onCancel }) => {
       )}
     </Formik>
   );
-};
-
-UserForm.defaultProps = {
-  user: {},
-  onSubmit: () => {},
-};
-
-UserForm.propTypes = {
-  user: PropTypes.object,
-  onSubmit: PropTypes.func.isRequired,
-  onClose: PropTypes.func,
 };
 
 export default UserForm;

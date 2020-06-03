@@ -10,9 +10,14 @@ import {
   Fab,
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
-import PropTypes from "prop-types";
+import { User } from "../types";
 
-const UsersList = ({ users, onEdit }) => {
+interface UsersListProps {
+  users: User[];
+  onEdit: (id: number) => void;
+}
+
+const UsersList: React.FC<UsersListProps> = ({ users, onEdit }) => {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="Users list">
@@ -47,14 +52,6 @@ const UsersList = ({ users, onEdit }) => {
       </Table>
     </TableContainer>
   );
-};
-
-UsersList.defaultProps = {
-  users: [],
-};
-
-UsersList.propTypes = {
-  users: PropTypes.array,
 };
 
 export default UsersList;
