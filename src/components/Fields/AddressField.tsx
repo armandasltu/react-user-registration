@@ -1,26 +1,25 @@
 import React from "react";
-import PlacesAutocomplete from "react-places-autocomplete";
+import PlacesAutocomplete, { Suggestion } from "react-places-autocomplete";
 import { CircularProgress, TextField, Link } from "@material-ui/core";
 import { fieldToTextField } from "formik-material-ui";
+import { FieldProps } from "formik";
 
-const AddressField = (props) => {
+const AddressField: React.FC<FieldProps> = (props) => {
   const { form } = props;
   const { setTouched, setFieldValue, setFieldError } = form;
   const { error, disabled, helperText, name, value } = fieldToTextField(props);
 
-  const handleError = (error) => {
-    setFieldError(name, error);
+  const handleError = (error: string) => {
+    name && setFieldError(name, error);
   };
 
-  const handleChange = (address) => {
-    setFieldValue(name, address);
+  const handleChange = (address: string) => {
+    name && setFieldValue(name, address);
   };
 
   return (
     <PlacesAutocomplete
-      name={name}
-      id={name}
-      value={value}
+      value={value as string}
       onChange={handleChange}
       onSelect={handleChange}
       onError={handleError}
@@ -31,14 +30,14 @@ const AddressField = (props) => {
             {...getInputProps({
               label: "Address",
             })}
-            onBlur={() => setTouched({ [name]: true })}
+            onBlur={() => name && setTouched({ [name]: true })}
             helperText={helperText}
             error={error}
             disabled={disabled}
             fullWidth
           />
           {loading && <CircularProgress />}
-          {suggestions.map((suggestion, index) => (
+          {suggestions.map((suggestion: Suggestion, index: number) => (
             <div key={index}>
               <Link href="#" {...getSuggestionItemProps(suggestion)}>
                 {suggestion.description}
