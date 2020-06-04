@@ -10,7 +10,7 @@ import {
   Fab,
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
-import { User } from "../types";
+import { User } from "types";
 
 interface UsersListProps {
   users: User[];

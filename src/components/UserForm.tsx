@@ -5,7 +5,7 @@ import { TextField } from "formik-material-ui";
 import { Box, Button, LinearProgress } from "@material-ui/core";
 import AddressField from "./Fields/AddressField";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import { User } from "../types";
+import { User } from "types";
 
 const useStyles = makeStyles((theme: Theme) => ({
   actions: {

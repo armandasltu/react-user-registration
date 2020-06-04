@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Typography,
@@ -9,13 +9,23 @@ import {
   DialogContent,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import UsersList from "./components/UsersList";
-import UserForm from "./components/UserForm";
+import UsersList from "components/UsersList";
+import UserForm from "components/UserForm";
+import useUsers from "hooks/useUsers";
 
 function App() {
+  const { users, actions } = useUsers();
+  const { setUsers } = actions;
+
   const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
   const [editableUserId, setEditableUserId] = useState<number>();
-  const users = JSON.parse(localStorage.getItem("users") ?? "") ?? [];
+
+  useEffect(() => {
+    if (!users.length) {
+      const usersList = JSON.parse(localStorage.getItem("users") ?? "") ?? [];
+      setUsers(usersList);
+    }
+  }, [setUsers, users]);
 
   const onDialogClose = () => {
     setEditableUserId(undefined);
