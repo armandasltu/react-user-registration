@@ -12,17 +12,19 @@ import AddIcon from "@material-ui/icons/Add";
 import UsersList from "components/UsersList";
 import UserForm from "components/UserForm";
 import useUsers from "hooks/useUsers";
+import { User } from "types";
+import { getRandomNumber } from "utils";
+import { usersList } from "mocks/users";
 
 function App() {
   const { users, actions } = useUsers();
-  const { setUsers } = actions;
+  const { setUsers, addUser, editUser } = actions;
 
   const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
   const [editableUserId, setEditableUserId] = useState<number>();
 
   useEffect(() => {
     if (!users.length) {
-      const usersList = JSON.parse(localStorage.getItem("users") ?? "") ?? [];
       setUsers(usersList);
     }
   }, [setUsers, users]);
@@ -32,7 +34,7 @@ function App() {
     setDialogOpen(false);
   };
 
-  const editableUser = editableUserId ? users[editableUserId] : undefined;
+  const editableUser = users.find(({ id }) => editableUserId === id);
 
   return (
     <Container maxWidth="md">
@@ -52,19 +54,26 @@ function App() {
           </Button>
 
           <Dialog open={isDialogOpen} onClose={onDialogClose}>
-            <DialogTitle>{`${editableUser ? "Edit" : "Add"} user`}</DialogTitle>
+            <DialogTitle>{`${
+              editableUserId ? "Edit" : "Add"
+            } user`}</DialogTitle>
             <DialogContent>
               <UserForm
                 user={editableUser}
                 onSubmit={(values) => {
-                  if (editableUser && editableUserId) {
-                    users[editableUserId] = values;
-                    localStorage.setItem("users", JSON.stringify(users));
+                  if (editableUser) {
+                    const user: User = {
+                      ...editableUser,
+                      ...values,
+                    };
+                    editUser(user);
                   } else {
-                    localStorage.setItem(
-                      "users",
-                      JSON.stringify([values, ...users])
-                    );
+                    const userId = getRandomNumber(1, 10000);
+                    const user: User = {
+                      ...values,
+                      id: userId,
+                    };
+                    addUser(user);
                   }
                   onDialogClose();
                 }}

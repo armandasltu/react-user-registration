@@ -1,6 +1,6 @@
 import { RootState } from "app/rootReducer";
 import { useDispatch, useSelector } from "react-redux";
-import { setUsers } from "slices/usersSlice";
+import { setUsers, addUsers, editUser } from "slices/usersSlice";
 import { User } from "../types";
 
 const useEvents = () => {
@@ -11,6 +11,8 @@ const useEvents = () => {
     users,
     actions: {
       setUsers: (users: User[]) => dispatch(setUsers(users)),
+      addUser: (user: User) => dispatch(addUsers(user)),
+      editUser: (user: User) => dispatch(editUser(user)),
     },
   };
 };

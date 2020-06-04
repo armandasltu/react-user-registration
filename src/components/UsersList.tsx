@@ -39,7 +39,7 @@ const UsersList: React.FC<UsersListProps> = ({ users, onEdit }) => {
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.address}</TableCell>
                 <TableCell>
-                  <Fab size="small" onClick={() => onEdit(index)}>
+                  <Fab size="small" onClick={() => onEdit(user.id)}>
                     <EditIcon />
                   </Fab>
                 </TableCell>
