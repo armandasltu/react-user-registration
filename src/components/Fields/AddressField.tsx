@@ -14,7 +14,7 @@ import { Suggestion } from "types";
 const useStyles = makeStyles((theme: Theme) => ({
   suggestionSpan: {
     color: theme.palette.primary.light,
-    opacity: 0.5
+    opacity: 0.5,
   },
 }));
 
@@ -22,13 +22,21 @@ const AddressField: React.FC<FieldProps> = (props) => {
   const classes = useStyles();
   const { form } = props;
   const { setTouched, setFieldValue } = form;
-  const { error, disabled, helperText, name, value, label } = fieldToTextField(props);
+  const {
+    error,
+    disabled,
+    helperText,
+    name,
+    value,
+    label,
+    type = '',
+  } = fieldToTextField(props);
 
   const {
     loading,
     suggestions,
     actions: { setValue, clearSuggestions },
-  } = usePlacesAutocomplete();
+  } = usePlacesAutocomplete(type);
 
   const handleChange = (event: any) => {
     const value = event.target.value;

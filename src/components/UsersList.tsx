@@ -32,12 +32,18 @@ const UsersList: React.FC<UsersListProps> = ({ users, onEdit }) => {
         </TableHead>
         {users.length ? (
           <TableBody>
-            {users.map((user, index) => (
+            {users.map((user: User, index) => (
               <TableRow key={index}>
                 <TableCell>{user.firstName}</TableCell>
                 <TableCell>{user.lastName}</TableCell>
                 <TableCell>{user.email}</TableCell>
-                <TableCell>{user.city}</TableCell>
+                <TableCell>
+                  <div>{user.street}</div>
+                  <div>{`${user.city},  ${user.country}`}</div>
+                  <div>
+                    {user.postalCode && `Postal code: ${user.postalCode}`}
+                  </div>
+                </TableCell>
                 <TableCell>
                   <Fab size="small" onClick={() => onEdit(user.id)}>
                     <EditIcon />

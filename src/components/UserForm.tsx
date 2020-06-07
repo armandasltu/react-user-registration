@@ -24,7 +24,10 @@ interface UserFormValues {
   firstName: string;
   lastName: string;
   email: string;
+  street: string;
   city: string;
+  country: string;
+  postalCode: string;
 }
 
 interface UserFormProps {
@@ -40,7 +43,10 @@ const UserForm: React.FC<UserFormProps> = ({ user, onSubmit, onCancel }) => {
     firstName: user?.firstName ?? "",
     lastName: user?.lastName ?? "",
     email: user?.email ?? "",
+    street: user?.street ?? "",
     city: user?.city ?? "",
+    country: user?.country ?? "",
+    postalCode: user?.postalCode ?? "",
   };
 
   const validationSchema = Yup.object({
@@ -51,9 +57,17 @@ const UserForm: React.FC<UserFormProps> = ({ user, onSubmit, onCancel }) => {
       .max(20, "Must be 20 characters or less")
       .required("Required"),
     email: Yup.string().email("Invalid email address").required("Required"),
-    city: Yup.string()
-      .max(255, "Must be 255 characters or less")
+    street: Yup.string()
+      .max(100, "Must be 100 characters or less")
       .required("Required"),
+    city: Yup.string()
+      .max(100, "Must be 100 characters or less")
+      .required("Required"),
+    country: Yup.string()
+      .max(100, "Must be 100 characters or less")
+      .required("Required"),
+    postalCode: Yup.string()
+      .max(30, "Must be 30 characters or less"),
   });
 
   const onFormSubmit = (
@@ -95,9 +109,28 @@ const UserForm: React.FC<UserFormProps> = ({ user, onSubmit, onCancel }) => {
           />
           <Field
             component={AddressField}
-            type="address"
+            type="street"
+            label="Address (Street/House)"
+            name="street"
+          />
+          <Field
+            component={AddressField}
+            type="city"
             label="City"
             name="city"
+          />
+          <Field
+            component={AddressField}
+            type="country"
+            label="Country"
+            name="country"
+          />
+          <Field
+            component={TextField}
+            type="postalCode"
+            label="Postal code"
+            name="postalCode"
+            fullWidth
           />
           {isSubmitting && <LinearProgress />}
           <Box className={classes.actions}>
