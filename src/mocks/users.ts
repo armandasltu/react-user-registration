@@ -8,7 +8,6 @@ export const usersList = [
     city: "Dubai",
     country: "United Arab Emirates",
     postalCode: "12345",
-    // address: "Address Fountain Views Tower 1 - Dubai - United Arab Emirates",
   },
   {
     id: 12345,
