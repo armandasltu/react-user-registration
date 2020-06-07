@@ -13,7 +13,6 @@ import UsersList from "components/UsersList";
 import UserForm from "components/UserForm";
 import useUsers from "hooks/useUsers";
 import { User } from "types";
-import { getRandomNumber } from "utils";
 
 function App() {
   const { users, actions } = useUsers();
@@ -53,19 +52,10 @@ function App() {
             <DialogContent>
               <UserForm
                 user={editableUser}
-                onSubmit={(values) => {
+                onSubmit={(user: User) => {
                   if (editableUser) {
-                    const user: User = {
-                      ...editableUser,
-                      ...values,
-                    };
                     editUser(user);
                   } else {
-                    const userId = getRandomNumber(1, 10000);
-                    const user: User = {
-                      ...values,
-                      id: userId,
-                    };
                     addUser(user);
                   }
                   onDialogClose();

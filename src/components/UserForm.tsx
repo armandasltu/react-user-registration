@@ -6,6 +6,7 @@ import { Box, Button, LinearProgress } from "@material-ui/core";
 import AddressField from "./Fields/AddressField";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { User } from "types";
+import { getRandomNumber } from "../utils";
 
 const useStyles = makeStyles((theme: Theme) => ({
   actions: {
@@ -32,7 +33,7 @@ interface UserFormValues {
 
 interface UserFormProps {
   user?: User;
-  onSubmit: (values: UserFormValues) => void;
+  onSubmit: (user: User) => void;
   onCancel: () => void;
 }
 
@@ -66,16 +67,28 @@ const UserForm: React.FC<UserFormProps> = ({ user, onSubmit, onCancel }) => {
     country: Yup.string()
       .max(100, "Must be 100 characters or less")
       .required("Required"),
-    postalCode: Yup.string()
-      .max(30, "Must be 30 characters or less"),
+    postalCode: Yup.string().max(30, "Must be 30 characters or less"),
   });
 
   const onFormSubmit = (
     values: UserFormValues,
     { setSubmitting }: FormikHelpers<UserFormValues>
   ) => {
+    if (user) {
+      const userData: User = {
+        ...user,
+        ...values,
+      };
+      onSubmit(userData);
+    } else {
+      const userId = getRandomNumber(1, 10000);
+      const userData: User = {
+        ...values,
+        id: userId,
+      };
+      onSubmit(userData);
+    }
     setSubmitting(false);
-    onSubmit(values);
   };
 
   return (
