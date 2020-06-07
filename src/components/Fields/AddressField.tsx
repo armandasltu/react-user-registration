@@ -1,52 +1,71 @@
 import React from "react";
-import PlacesAutocomplete, { Suggestion } from "react-places-autocomplete";
-import { CircularProgress, TextField, Link } from "@material-ui/core";
+import {
+  CircularProgress,
+  ClickAwayListener,
+  TextField,
+  Link,
+} from "@material-ui/core";
+import usePlacesAutocomplete from "hooks/usePlacesAutocomplete";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import { fieldToTextField } from "formik-material-ui";
 import { FieldProps } from "formik";
+import { Suggestion } from "types";
+
+const useStyles = makeStyles((theme: Theme) => ({
+  suggestionSpan: {
+    color: theme.palette.primary.light,
+    opacity: 0.5
+  },
+}));
 
 const AddressField: React.FC<FieldProps> = (props) => {
+  const classes = useStyles();
   const { form } = props;
-  const { setTouched, setFieldValue, setFieldError } = form;
-  const { error, disabled, helperText, name, value } = fieldToTextField(props);
+  const { setTouched, setFieldValue } = form;
+  const { error, disabled, helperText, name, value, label } = fieldToTextField(props);
 
-  const handleError = (error: string) => {
-    name && setFieldError(name, error);
-  };
+  const {
+    loading,
+    suggestions,
+    actions: { setValue, clearSuggestions },
+  } = usePlacesAutocomplete();
 
-  const handleChange = (address: string) => {
-    name && setFieldValue(name, address);
+  const handleChange = (event: any) => {
+    const value = event.target.value;
+    name && setFieldValue(name, value);
+    setValue(value);
   };
 
   return (
-    <PlacesAutocomplete
-      value={value as string}
-      onChange={handleChange}
-      onSelect={handleChange}
-      onError={handleError}
-    >
-      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-        <div>
-          <TextField
-            {...getInputProps({
-              label: "Address",
-            })}
-            onBlur={() => name && setTouched({ [name]: true })}
-            helperText={helperText}
-            error={error}
-            disabled={disabled}
-            fullWidth
-          />
-          {loading && <CircularProgress />}
-          {suggestions.map((suggestion: Suggestion, index: number) => (
-            <div key={index}>
-              <Link href="#" {...getSuggestionItemProps(suggestion)}>
-                {suggestion.description}
-              </Link>
-            </div>
-          ))}
-        </div>
-      )}
-    </PlacesAutocomplete>
+    <ClickAwayListener onClickAway={clearSuggestions}>
+      <div>
+        <TextField
+          value={value}
+          label={label}
+          onChange={handleChange}
+          onBlur={() => name && setTouched({ [name]: true })}
+          helperText={helperText}
+          error={error}
+          disabled={disabled}
+          fullWidth
+        />
+        {loading && <CircularProgress />}
+        {suggestions.map(({ title, subTitle }: Suggestion, index: number) => (
+          <div key={index}>
+            <Link
+              href="#"
+              onClick={() => {
+                name && setFieldValue(name, title);
+                clearSuggestions();
+              }}
+            >
+              {title}
+              <span className={classes.suggestionSpan}>, {subTitle}</span>
+            </Link>
+          </div>
+        ))}
+      </div>
+    </ClickAwayListener>
   );
 };
 

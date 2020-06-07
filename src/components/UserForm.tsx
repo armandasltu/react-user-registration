@@ -24,7 +24,7 @@ interface UserFormValues {
   firstName: string;
   lastName: string;
   email: string;
-  address: string;
+  city: string;
 }
 
 interface UserFormProps {
@@ -40,7 +40,7 @@ const UserForm: React.FC<UserFormProps> = ({ user, onSubmit, onCancel }) => {
     firstName: user?.firstName ?? "",
     lastName: user?.lastName ?? "",
     email: user?.email ?? "",
-    address: user?.address ?? "",
+    city: user?.city ?? "",
   };
 
   const validationSchema = Yup.object({
@@ -51,7 +51,7 @@ const UserForm: React.FC<UserFormProps> = ({ user, onSubmit, onCancel }) => {
       .max(20, "Must be 20 characters or less")
       .required("Required"),
     email: Yup.string().email("Invalid email address").required("Required"),
-    address: Yup.string()
+    city: Yup.string()
       .max(255, "Must be 255 characters or less")
       .required("Required"),
   });
@@ -96,8 +96,8 @@ const UserForm: React.FC<UserFormProps> = ({ user, onSubmit, onCancel }) => {
           <Field
             component={AddressField}
             type="address"
-            label="Address"
-            name="address"
+            label="City"
+            name="city"
           />
           {isSubmitting && <LinearProgress />}
           <Box className={classes.actions}>
