@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Container,
   Typography,
@@ -14,20 +14,13 @@ import UserForm from "components/UserForm";
 import useUsers from "hooks/useUsers";
 import { User } from "types";
 import { getRandomNumber } from "utils";
-import { usersList } from "mocks/users";
 
 function App() {
   const { users, actions } = useUsers();
-  const { setUsers, addUser, editUser } = actions;
+  const { addUser, editUser } = actions;
 
   const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
   const [editableUserId, setEditableUserId] = useState<number>();
-
-  useEffect(() => {
-    if (!users.length) {
-      setUsers(usersList);
-    }
-  }, [setUsers, users]);
 
   const onDialogClose = () => {
     setEditableUserId(undefined);
